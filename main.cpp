@@ -53,8 +53,6 @@ void CircleMovement(){
         curveY = ((distanceBetweenPoints/2)*sin(angle))+midY;
         DrawRectangle(curveX,curveY,10,10,DARKGRAY);
     }
-
-    std::cout << angle << std::endl;
 }
 
 void HandleInput(){
