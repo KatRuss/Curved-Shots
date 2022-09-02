@@ -1,7 +1,5 @@
 #include "raylib.h"
 #include "math.h"
-#include <iostream>
-#include <string>
 
 const int screenWidth = 960;
 const int screenHeight = 540;
@@ -15,6 +13,8 @@ float mouseY = 0;
 float distanceBetweenPoints = 0;
 float midX;
 float midY;
+
+bool showTriangle = false;
 
 //Pythagorean Theroum. hypotenuse for two arbitrary points. Used for distance calculation.  
 float dist(float ax, float ay, float bx, float by){
@@ -33,6 +33,9 @@ void HandleInput(){
     if (IsKeyDown(KEY_A)){playerX-=3;}
     if (IsKeyDown(KEY_D)){playerX+=3;}
 
+    //Debug Drawing
+    if (IsKeyPressed(KEY_F)){showTriangle = !showTriangle;}
+    
 }
 
 void DrawAimingCircle(){
@@ -43,9 +46,17 @@ void DrawAimingCircle(){
     midX = (playerX + mouseX)/2;
     midY = (playerY + mouseY)/2;
 
+    //Draw
     DrawCircleLines(midX,midY,distanceBetweenPoints/2,GREEN);
 }
 
+void DrawDebugTriangle(){
+    //Horz Line
+    DrawLine(playerX,playerY,mouseX,playerY,BLACK);
+    //Vert Line
+    DrawLine(mouseX,mouseY,mouseX,playerY,BLACK);
+
+}
 
 int main(void)
 {
@@ -65,17 +76,19 @@ int main(void)
             //Mouse
             DrawRectangle(mouseX,mouseY,10,10,BLUE);
 
-            DrawLine(playerX,playerY,mouseX,mouseY,PURPLE);
+            //Example Triangle
+            if (showTriangle){DrawDebugTriangle();}
+            
+
+            //Circle
+            DrawLine(playerX,playerY,mouseX,mouseY,PURPLE); //Diameter
+            DrawAimingCircle();
 
             //Tutorial Text
             DrawText("WASD to Move",10,10,18,BLACK);
             DrawText("Left Mouse to Fire",10,25,18,BLACK);
 
-            DrawAimingCircle();
-
         EndDrawing();
-
-        std::cout << GetFPS() << std::endl;
     }
     CloseWindow();
 
